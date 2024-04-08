@@ -1,0 +1,29 @@
+﻿@model TreeWeb.Core.Entities.Product
+
+<h2 class="text-2xl font-bold mb-4">Delete Product</h2>
+
+<div class="mb-4">
+    <h4 class="text-lg font-semibold">Are you sure you want to delete this product?</h4>
+    <div class="mt-4">
+        <h3 class="text-xl font-semibold">@Model.Name</h3>
+        <p class="text-gray-600">@Model.Description</p>
+        <p class="text-gray-600">Price: @Model.Price</p>
+        <p class="text-gray-600">Quantity: @Model.Quantity</p>
+        <p class="text-gray-600">Category: @Model.Category.Name</p>
+        <p class="text-gray-600">Supplier: @Model.Supplier.Name</p>
+        @if (!string.IsNullOrEmpty(Model.Image))
+        {
+            <img src="@Model.Image" alt="Product Image" class="max-w-xs mt-4" />
+        }
+        else
+        {
+            <img src="https://e7.pngegg.com/pngimages/980/697/png-clipart-empty-set-null-set-computer-icons-mathematics-mathematics-triangle-symbol-thumbnail.png" alt="Product Image" class="max-w-xs mt-4" />
+        }
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="ProductId" />
+    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">Delete</button>
+    <a asp-action="Index" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md ml-4 hover:bg-gray-400 focus:outline-none focus:bg-gray-400">Cancel</a>
+</form>

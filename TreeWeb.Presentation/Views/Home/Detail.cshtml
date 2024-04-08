@@ -1,0 +1,57 @@
+﻿@model TreeWeb.Core.Entities.Product
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Product Detail";
+}
+
+<div class="flex items-center justify-center min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-bold mb-10 ">@Model.Name Detail Information</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-gray-100 p-4 rounded-md mb-4">
+                <p class="mb-2"><strong class="text-indigo-600">Description:</strong> <span class="text-gray-800">@Model.Description</span></p>
+                <p class="mb-2"><strong class="text-indigo-600">Price:</strong> <span class="text-gray-800">@Model.Price.ToString("C")</span></p>
+                <p class="mb-2"><strong class="text-indigo-600">Quantity:</strong> <span class="text-gray-800">@Model.Quantity</span></p>
+                <p class="mb-2"><strong class="text-indigo-600">Category:</strong> <span class="text-gray-800">@Model.Category.Name</span></p>
+                <p class="mb-2"><strong class="text-indigo-600">Supplier:</strong> <span class="text-gray-800">@Model.Supplier.Name</span></p>
+                
+            </div>
+            <div class="bg-gray-100 p-4 rounded-md mb-4">
+                <img src="@Model.Image" alt="@Model.Name" class="max-w-full h-auto mb-4" />
+                <form id="addToCartForm_@Model.ProductId" asp-action="AddItem" asp-controller="Cart" method="post">
+                    <input type="hidden" name="productId" value="@Model.ProductId" />
+                    <button type="submit" class="mt-4 py-2 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"> Add to Cart </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addToCartForms = document.querySelectorAll('form[id^="addToCartForm_"]');
+
+        addToCartForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                fetch(this.action, {
+                    method: this.method,
+                    body: new URLSearchParams(new FormData(this))
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/cart/getusercart';
+                        } else {
+                            console.error('Add to cart request failed!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error occurred while adding to cart:', error);
+                    });
+            });
+        });
+    });
+</script>

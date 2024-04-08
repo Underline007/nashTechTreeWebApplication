@@ -1,0 +1,23 @@
+﻿@model TreeWeb.Core.Entities.Supplier
+
+<h2 class="text-2xl font-bold">Delete Supplier</h2>
+
+<dl class="grid grid-cols-2 gap-y-2 mt-4">
+    <dt class="text-gray-600 font-semibold">Supplier ID:</dt>
+    <dd class="text-gray-900">@Model.SupplierId</dd>
+
+    <dt class="text-gray-600 font-semibold">Name:</dt>
+    <dd class="text-gray-900">@Model.Name</dd>
+
+    <dt class="text-gray-600 font-semibold">Address:</dt>
+    <dd class="text-gray-900">@Model.Address</dd>
+
+    <dt class="text-gray-600 font-semibold">Phone Number:</dt>
+    <dd class="text-gray-900">@Model.PhoneNumber</dd>
+</dl>
+
+<form asp-action="Delete" method="post" class="mt-4">
+    <input type="hidden" asp-for="SupplierId" />
+    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">Delete</button>
+    <a asp-action="Index" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md ml-2 hover:bg-gray-300">Cancel</a>
+</form>

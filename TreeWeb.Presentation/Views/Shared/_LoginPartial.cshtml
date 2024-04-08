@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TreeWeb.Core.Entities
+@inject SignInManager<AppUser> signInManager
+@inject UserManager<AppUser> userManager
+
+<ul class="navbar-nav">
+    @if (signInManager.IsSignedIn(User))
+    {
+        var user = await userManager.GetUserAsync(User);
+        var isAdmin = await userManager.IsInRoleAsync(user, "Admin");
+        <button class="text-gray-800 hover:text-gray-900 font-semibold inline-flex items-center text-sm">
+            <span>Hello, @user.Name</span>
+            <svg class="fill-current h-4 w-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 12a1 1 0 01-.7-.3l-4-4a1 1 0 111.4-1.4L10 10.6l3.3-3.3a1 1 0 111.4 1.4l-4 4a1 1 0 01-.7.3z" clip-rule="evenodd" />
+            </svg>
+        </button>
+        <ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
+            <li><a href="#" class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap text-sm">Profile</a></li>
+            <li><a href="#" class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap text-sm">Settings</a></li>
+            <li><a href="@Url.Action("Logout", "Account")" class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap text-sm">Logout</a></li>
+            @if (isAdmin)
+            {
+                <li><a href="@Url.Action("Index", "Product", new { area = "Admin" })" class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap text-sm">Admin Area</a></li>
+            }
+        </ul>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark hover:text-gray-800 text-sm" asp-area="" asp-controller="Account" asp-action="Login">Login Here</a>
+        </li>
+    }
+</ul>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(function (dropdown) {
+            dropdown.addEventListener('click', function (event) {
+                event.stopPropagation();
+                dropdown.querySelector('.dropdown-menu').classList.toggle('hidden');
+            });
+        });
+
+        window.addEventListener('click', function () {
+            dropdowns.forEach(function (dropdown) {
+                dropdown.querySelector('.dropdown-menu').classList.add('hidden');
+            });
+        });
+    });
+</script>

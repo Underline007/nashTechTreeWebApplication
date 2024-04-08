@@ -1,0 +1,16 @@
+﻿@model TreeWeb.Core.Entities.Category
+
+<h2 class="text-2xl font-bold">Category Details</h2>
+
+<div class="mt-4">
+    <h4 class="text-lg font-semibold">Category ID: @Model.CategoryId</h4>
+    <hr class="my-4 border-t border-gray-300" />
+    <dl class="grid grid-cols-2 gap-x-4">
+        <dt class="font-semibold">Name:</dt>
+        <dd>@Model.Name</dd>
+    </dl>
+</div>
+<p class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model.CategoryId" class="text-blue-500 hover:underline">Edit</a> |
+    <a asp-action="Index" class="text-blue-500 hover:underline">Back to List</a>
+</p>

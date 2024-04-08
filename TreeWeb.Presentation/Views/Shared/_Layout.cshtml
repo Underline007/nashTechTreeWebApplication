@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TreeWeb.Presentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TreeWeb.Presentation.styles.css" asp-append-version="true" />
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wrapper {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <header class="bg-gray-100">
+        <nav>
+            <div class="container mx-auto px-4 py-2">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <a href="#" class="font-bold text-xl text-gray-800">Tree Shop</a>
+                    </div>
+                    <div class="flex space-x-4 items-center">
+                        <!-- Updated this line -->
+                        <a href="@Url.Action("GetUserCart", "Cart")" class="text-gray-800 hover:text-gray-900 text-sm font-medium flex items-center">
+                            <i class="fas fa-shopping-cart mr-1"></i>
+                            Cart
+                        </a>
+
+                        <div class="dropdown flex items-center">
+                            <!-- Updated this line -->
+                            @Html.Partial("_LoginPartial")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="wrapper">
+        <div class="container mx-auto py-8">
+            <main>
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-gray-100 text-center py-4">
+        <div class="container mx-auto">
+            &copy; 2024 - TreeWeb.Presentation - <a href="@Url.Action("Privacy", "Home")">About us</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

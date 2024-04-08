@@ -1,0 +1,50 @@
+﻿@using TreeWeb.Application.ViewModels
+@model RegisterVM
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="flex justify-center items-center h-screen bg-gray-100">
+    <div class="max-w-md w-full bg-white shadow-lg rounded-lg p-6">
+        <h2 class="text-center text-2xl text-blue-600 font-bold mb-6">Register</h2>
+        <form asp-action="Register" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
+            <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+            <div class="mb-4">
+                <label asp-for="Name" class="block text-gray-700 font-semibold mb-2"></label>
+                <input asp-for="Name" class="form-input w-full rounded-md border border-black focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" />
+                <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Email" class="block text-gray-700 font-semibold mb-2"></label>
+                <input asp-for="Email" class="form-input w-full rounded-md border border-black focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" />
+                <span asp-validation-for="Email" class="text-red-500 text-sm"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Password" class="block text-gray-700 font-semibold mb-2"></label>
+                <input asp-for="Password" type="password" class="form-input w-full rounded-md border border-black focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" />
+                <span asp-validation-for="Password" class="text-red-500 text-sm"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="ConfirmPassword" class="block text-gray-700 font-semibold mb-2"></label>
+                <input asp-for="ConfirmPassword" type="password" class="form-input w-full rounded-md border border-black focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" />
+                <span asp-validation-for="ConfirmPassword" class="text-red-500 text-sm"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Address" class="block text-gray-700 font-semibold mb-2"></label>
+                <textarea asp-for="Address" class="form-textarea w-full rounded-md border border-black focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" rows="2"></textarea>
+                <span asp-validation-for="Address" class="text-red-500 text-sm"></span>
+            </div>
+            <div class="flex justify-between items-center">
+                <a asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text-sm text-blue-600 hover:underline">Have an account?</a>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

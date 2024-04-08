@@ -1,0 +1,76 @@
+﻿@model TreeWeb.Core.Entities.ShoppingCart
+@{
+    ViewData["Title"] = "GetUserCart";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto mt-8">
+ 
+
+        @if (Model != null && Model.CartDetails != null && Model.CartDetails.Count > 0)
+        {
+            <table class="table-auto w-full">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-4 py-2 text-left">Product Name</th>
+                        <th class="px-4 py-2 text-left">Image</th>
+                        <th class="px-4 py-2 text-left">Category</th>
+                        <th class="px-4 py-2 text-center">Unit Price</th>
+                        <th class="px-4 py-2 text-center">Quantity</th>
+                        <th class="px-4 py-2 text-center">Total Price</th>
+                        <th class="px-4 py-2 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CartDetails)
+                    {
+                        <tr class="border-b border-gray-300">
+                            <td class="px-4 py-2 text-left">@item.Product.Name</td>
+                            <td class="px-4 py-2 text-left">
+                                @if (!string.IsNullOrEmpty(item.Product.Image))
+                                {
+                                    <img src="@item.Product.Image" alt="Product Image" class="max-w-xs mx-auto" />
+                                }
+                                else
+                                {
+                                    <img src="https://via.placeholder.com/100" alt="Default Image" class="max-w-xs mx-auto" />
+                                }
+                            </td>
+                            <td class="px-4 py-2 text-left">@item.Product.Category.Name</td>
+                            <td class="px-4 py-2 text-center">@item.Product.Price</td>
+                            <td class="px-4 py-2 text-center">@item.Quantity</td>
+                            <td class="px-4 py-2 text-center">@(item.Product.Price * item.Quantity)</td>
+                            <td class="px-4 py-2 text-center">
+                                <a href="/Cart/AddItem?productId=@item.ProductId&redirect=1" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">+</a>
+                                <a href="/Cart/RemoveItem?productId=@item.ProductId" class="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">-</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="my-4 text-center">
+                <h5 class="text-xl font-semibold">Total(USD): @Model.CartDetails.Sum(item => item.Product.Price * item.Quantity)</h5>
+                <div class="my-2">
+                    <a href="/Cart/Checkout" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Checkout</a>
+                </div>
+            </div>
+
+            
+
+        }
+        else
+        {
+            <h5 class="text-xl font-semibold text-center">Your cart is empty</h5>
+        }
+    </div>
+
+</body>
+</html>

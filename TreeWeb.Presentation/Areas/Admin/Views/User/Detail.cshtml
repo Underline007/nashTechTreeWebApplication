@@ -1,0 +1,24 @@
+﻿@model TreeWeb.Application.ViewModels.UserCreateEditViewModel
+
+<h2 class="text-2xl font-bold">User Details</h2>
+
+<div class="flex justify-center mt-8">
+    <div class="w-1/2 bg-white shadow-md rounded-lg overflow-hidden">
+        <dl class="divide-y divide-gray-200">
+            <div class="py-4 px-6">
+                <dt class="text-sm font-medium text-gray-500">Name:</dt>
+                <dd class="mt-1 text-sm text-gray-900">@Model.Name</dd>
+            </div>
+            <div class="py-4 px-6">
+                <dt class="text-sm font-medium text-gray-500">Email:</dt>
+                <dd class="mt-1 text-sm text-gray-900">@Model.Email</dd>
+            </div>
+            <div class="py-4 px-6">
+                <dt class="text-sm font-medium text-gray-500">Address:</dt>
+                <dd class="mt-1 text-sm text-gray-900">@Model.Address</dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-4">Back to List</a>

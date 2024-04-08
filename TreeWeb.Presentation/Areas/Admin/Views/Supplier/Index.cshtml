@@ -1,0 +1,58 @@
+﻿@model TreeWeb.Application.Helper.PaginatedList<TreeWeb.Core.Entities.Supplier>
+
+<h2 class="text-2xl font-bold">Suppliers</h2>
+
+<div class="mt-4">
+    <a href="@Url.Action("Create")" class="btn btn-primary">Create New</a>
+</div>
+
+<div class="mt-4">
+    <form asp-action="Index" method="get">
+        <div class="flex">
+            <input type="text" name="searchString" placeholder="Search by name or address" value="@ViewData["CurrentFilter"]" class="form-input" />
+            <button type="submit" class="btn btn-primary ml-2">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="mt-4">
+    <a href="@Url.Action("Index", new { sortOrder = "Name" })" class="btn btn-link">Sort by Name</a>
+    <a href="@Url.Action("Index", new { sortOrder = "Address" })" class="btn btn-link">Sort by Address</a>
+</div>
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>PhoneNumber</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var supplier in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => supplier.Name)</td>
+                <td>@Html.DisplayFor(modelItem => supplier.Address)</td>
+                <td>@Html.DisplayFor(modelItem => supplier.PhoneNumber)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@supplier.SupplierId" class="btn btn-primary">Edit</a>
+                    <a asp-action="Detail" asp-route-id="@supplier.SupplierId" class="btn btn-info">Detail</a>
+                    <a asp-action="Delete" asp-route-id="@supplier.SupplierId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, sortOrder = ViewData["CurrentSort"], searchString = ViewData["CurrentFilter"] })">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

@@ -1,0 +1,36 @@
+﻿@model TreeWeb.Application.ViewModels.UserCreateEditViewModel
+
+<h2 class="text-2xl font-bold">Edit User</h2>
+
+<form asp-action="Edit" method="post" class="mt-4">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-4">
+        <label asp-for="Name" class="block text-gray-700 text-sm font-bold mb-2"></label>
+        <input asp-for="Name" class="form-input rounded-md shadow-sm w-full" />
+        <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-4">
+        <label asp-for="Email" class="block text-gray-700 text-sm font-bold mb-2"></label>
+        <input asp-for="Email" class="form-input rounded-md shadow-sm w-full" />
+        <span asp-validation-for="Email" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-4">
+        <label asp-for="Address" class="block text-gray-700 text-sm font-bold mb-2"></label>
+        <input asp-for="Address" class="form-input rounded-md shadow-sm w-full" />
+        <span asp-validation-for="Address" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-4">
+        <label asp-for="Password" class="block text-gray-700 text-sm font-bold mb-2"></label>
+        <input asp-for="Password" type="password" class="form-input rounded-md shadow-sm w-full" />
+        <span asp-validation-for="Password" class="text-red-500 text-sm"></span>
+    </div>
+    <div class="mb-4">
+        <label asp-for="ConfirmPassword" class="block text-gray-700 text-sm font-bold mb-2"></label>
+        <input asp-for="ConfirmPassword" type="password" class="form-input rounded-md shadow-sm w-full" />
+        <span asp-validation-for="ConfirmPassword" class="text-red-500 text-sm"></span>
+    </div>
+    <div>
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>

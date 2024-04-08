@@ -1,0 +1,30 @@
+﻿@model TreeWeb.Core.Entities.Product
+
+@{
+    ViewData["Title"] = "Product Detail";
+}
+
+<div class="max-w-lg mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Product Detail</h2>
+
+    <div class="mb-8">
+        <h4 class="text-lg font-semibold">Product Name: @Model.Name</h4>
+        <p class="text-gray-600">Description: @Model.Description</p>
+        <p class="text-gray-600">Price: @Model.Price</p>
+        <p class="text-gray-600">Quantity: @Model.Quantity</p>
+        <p class="text-gray-600">Category: @Model.Category.Name</p>
+        <p class="text-gray-600">Supplier: @Model.Supplier.Name</p>
+        @if (!string.IsNullOrEmpty(Model.Image))
+        {
+            <img src="@Model.Image" alt="Product Image" class="max-w-full h-auto" />
+        }
+        else
+        {
+            <img src="https://e7.pngegg.com/pngimages/980/697/png-clipart-empty-set-null-set-computer-icons-mathematics-mathematics-triangle-symbol-thumbnail.png" alt="No Image" class="max-w-full h-auto" />
+        }
+    </div>
+
+    <p class="mt-8">
+        <a asp-action="Index" class="text-blue-500 hover:text-blue-700">Back to List</a>
+    </p>
+</div>

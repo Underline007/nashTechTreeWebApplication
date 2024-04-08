@@ -1,0 +1,19 @@
+﻿@model TreeWeb.Core.Entities.Supplier
+
+<h2 class="text-2xl font-bold">Supplier Detail</h2>
+
+<div class="mt-4">
+    <dl class="grid grid-cols-2 gap-y-2">
+        <dt class="text-gray-600 font-semibold">Supplier ID:</dt>
+        <dd class="text-gray-900">@Model.SupplierId</dd>
+
+        <dt class="text-gray-600 font-semibold">Name:</dt>
+        <dd class="text-gray-900">@Model.Name</dd>
+
+        <dt class="text-gray-600 font-semibold">Address:</dt>
+        <dd class="text-gray-900">@Model.Address</dd>
+
+        <dt class="text-gray-600 font-semibold">Phone Number:</dt>
+        <dd class="text-gray-900">@Model.PhoneNumber</dd>
+    </dl>
+</div>

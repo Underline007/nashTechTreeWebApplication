@@ -1,0 +1,129 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TreeWeb.Application.Helper
+@model PaginatedList<TreeWeb.Core.Entities.Product>
+
+<div class="bg-white">
+    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Suggested for you</h2>
+
+        <form id="searchForm" asp-action="Index" method="get" class="mt-6 flex justify-around">
+            <p class="flex items-center">
+                <input type="hidden" name="sortOrder" value="@ViewData["CurrentSort"]" />
+                <input type="text" name="searchString" placeholder="Search by name" value="@ViewData["CurrentFilter"]" class="border border-gray-300 p-2 rounded-md mr-2" />
+                <button type="submit" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Search</button>
+                <select name="sortOrder" id="sortOrder" class="border border-gray-300 p-2 rounded-md ml-2">
+                    <option value="">Sort By</option>
+                    <option value="name_desc">Name (Z-A)</option>
+                    <option value="Price">Price (Low to High)</option>
+                    <option value="price_desc">Price (High to Low)</option>
+                </select>
+            </p>
+        </form>
+
+        <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mt-6">
+            @foreach (var product in Model)
+            {
+                <div class="group relative bg-gray-100 rounded-md shadow-md hover:shadow-lg">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <a asp-action="Detail" asp-route-id="@product.ProductId">
+                        <img src="@product.Image" alt="@product.Name" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </a>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-900">@product.Name</h3>
+                        <p class="mt-2 text-sm text-gray-600">@product.Category</p>
+                        <p class="mt-2 text-sm text-gray-600">Quantity: @product.Quantity</p>
+                        <p class="mt-2 text-lg font-semibold text-gray-900">@product.Price.ToString("C")</p>
+                        <form id="addToCartForm_@product.ProductId" asp-action="AddItem" asp-controller="Cart" method="post">
+                            <input type="hidden" name="productId" value="@product.ProductId" />
+                            <button type="submit" class="mt-4 w-full py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"> Add to Cart </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <nav class="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0 mt-10">
+            <div class="w-0 flex-1 flex">
+                @if (Model.HasPreviousPage)
+                {
+                    <a href="?pageNumber=@(Model.PageIndex - 1)&sortOrder=@ViewData["CurrentSort"]&searchString=@ViewData["CurrentFilter"]" rel="prev" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        Previous
+                    </a>
+                }
+                else
+                {
+                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-500 bg-white cursor-not-allowed">
+                        Previous
+                    </span>
+                }
+            </div>
+            <div class="hidden md:flex">
+                Page @(Model.PageIndex) of @Model.TotalPages
+            </div>
+            <div class="w-0 flex-1 flex justify-end">
+                @if (Model.HasNextPage)
+                {
+                    <a href="?pageNumber=@(Model.PageIndex + 1)&sortOrder=@ViewData["CurrentSort"]&searchString=@ViewData["CurrentFilter"]" rel="next" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        Next
+                    </a>
+                }
+                else
+                {
+                    <span class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-500 bg-white cursor-not-allowed">
+                        Next
+                    </span>
+                }
+            </div>
+        </nav>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sortOrderSelect = document.getElementById('sortOrder');
+        const searchForm = document.getElementById('searchForm');
+
+        sortOrderSelect.addEventListener('change', function () {
+            const selectedSortOrder = this.value;
+            const currentUrl = '@Url.Action("Index")';
+            const searchString = document.querySelector('input[name="searchString"]').value;
+            window.location.href = `${currentUrl}?sortOrder=${selectedSortOrder}&searchString=${searchString}`;
+        });
+
+        searchForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const searchString = document.querySelector('input[name="searchString"]').value;
+            const selectedSortOrder = sortOrderSelect.value;
+            const currentUrl = '@Url.Action("Index")';
+            window.location.href = `${currentUrl}?sortOrder=${selectedSortOrder}&searchString=${searchString}`;
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addToCartForms = document.querySelectorAll('form[id^="addToCartForm_"]');
+
+        addToCartForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                fetch(this.action, {
+                    method: this.method,
+                    body: new URLSearchParams(new FormData(this))
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/cart/getusercart';
+                        } else {
+                            console.error('Add to cart request failed!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error occurred while adding to cart:', error);
+                    });
+            });
+        });
+    });
+</script>
